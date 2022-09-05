@@ -4,9 +4,7 @@
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    position: relative;
 }
 
 .filters button {
@@ -15,11 +13,13 @@
     color: #FFFFFF;
     height: 48px;
     width: 20%;
-    border: none;
+    border: 0px;
     border-radius: 4px;
     margin-right: 30px;
-    margin-left: auto;
+    margin-top: 11px;
     outline: none;
+    left: 80%;
+    transform: translateX(-30px);
 }
 
 .filters button:hover {
