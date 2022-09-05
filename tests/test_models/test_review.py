@@ -1,21 +1,34 @@
 #!/usr/bin/python3
-''' module for review tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
+"""test module for class Review"""
 
-from models.base_model import BaseModel
-from models.review import Review
+import models
+import datetime
+import unittest
 
 
-class TestCity(TestCase):
-    ''' tests Review class '''
-    def test_9(self):
-        ''' task 9 tests '''
-        self.assertTrue(issubclass(Review, BaseModel))
-        self.assertEqual(Review.place_id, '')
-        self.assertEqual(Review.user_id, '')
-        self.assertEqual(Review.text, '')
+class ReviewTest(unittest.TestCase):
+    """tests the class Review"""
+
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.review.__doc__)
+        self.assertIsNotNone(models.review.Review.__doc__)
+
+    def test_class(self):
+        """test instance class"""
+        instance = models.review.Review()
+        self.assertIsInstance(instance, models.review.Review)
+
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.review.Review()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.place_id, str)
+        self.assertIsInstance(instance.user_id, str)
+        self.assertIsInstance(instance.text, str)
+
+
+if __name__ == "__main__":
+    unittest.main()
