@@ -1,43 +1,42 @@
 #!/usr/bin/python3
-''' module for place tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
+"""test module for class Place"""
 
-from models.base_model import BaseModel
-from models.place import Place
+import models
+import datetime
+import unittest
 
 
-class TestPlace(TestCase):
-    ''' tests Place class '''
-    def test_9(self):
-        ''' task 9 tests '''
-        self.assertTrue(issubclass(Place, BaseModel))
-        self.assertEqual(Place.city_id, '')
-        self.assertEqual(Place.user_id, '')
-        self.assertEqual(Place.name, '')
-        self.assertEqual(Place.description, '')
+class PlaceTest(unittest.TestCase):
+    """tests the class Place"""
 
-        self.assertTrue(type(Place.number_rooms) is int)
-        self.assertEqual(Place.number_rooms, 0)
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.place.__doc__)
+        self.assertIsNotNone(models.place.Place.__doc__)
 
-        self.assertTrue(type(Place.number_bathrooms) is int)
-        self.assertEqual(Place.number_bathrooms, 0)
+    def test_class(self):
+        """test instance class"""
+        instance = models.place.Place()
+        self.assertIsInstance(instance, models.place.Place)
 
-        self.assertTrue(type(Place.max_guest) is int)
-        self.assertEqual(Place.max_guest, 0)
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.place.Place()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.city_id, str)
+        self.assertIsInstance(instance.user_id, str)
+        self.assertIsInstance(instance.name, str)
+        self.assertIsInstance(instance.description, str)
+        self.assertIsInstance(instance.number_rooms, int)
+        self.assertIsInstance(instance.number_bathrooms, int)
+        self.assertIsInstance(instance.max_guest, int)
+        self.assertIsInstance(instance.price_by_night, int)
+        self.assertIsInstance(instance.latitude, float)
+        self.assertIsInstance(instance.longitude, float)
+        self.assertIsInstance(instance.amenity_ids, list)
 
-        self.assertTrue(type(Place.price_by_night) is int)
-        self.assertEqual(Place.price_by_night, 0)
 
-        self.assertTrue(type(Place.latitude) is float)
-        self.assertEqual(Place.latitude, 0.0)
-
-        self.assertTrue(type(Place.longitude) is float)
-        self.assertEqual(Place.longitude, 0.0)
-
-        self.assertTrue(type(Place.amenity_ids) is list)
-        self.assertEqual(Place.amenity_ids, [])
+if __name__ == "__main__":
+    unittest.main()
