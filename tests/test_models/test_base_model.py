@@ -1,108 +1,66 @@
 #!/usr/bin/python3
-''' module for base_model tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
-import test_models.test_base_model
+"""test module for class BaseModel"""
+
+import models
+import datetime
+import unittest
 
 
-class TestBaseModel(TestCase):
-    ''' tests BaseModel class '''
-    def test_3(self):
-        ''' task 0 tests '''
-        obj = BaseModel()
+class BaseModelTest(unittest.TestCase):
+    """tests the class BaseModel"""
 
-        # id format and uniqueness
-        self.assertTrue(type(getattr(obj, 'id', None) is str) and
-                        UUID(obj.id))
-        self.assertNotEqual(BaseModel().id, obj.id)
-        self.assertNotEqual(BaseModel().id, BaseModel().id)
-        self.assertNotEqual(BaseModel().id, BaseModel().id)
+    def test_documentation(self):
+        """tests module, class and methods docstring"""
+        self.assertIsNotNone(models.base_model.__doc__)
+        self.assertIsNotNone(models.base_model.BaseModel.__doc__)
+        self.assertIsNotNone(models.base_model.BaseModel.__str__.__doc__)
+        self.assertIsNotNone(models.base_model.BaseModel.save.__doc__)
+        self.assertIsNotNone(models.base_model.BaseModel.to_dict.__doc__)
 
-        # created_at and updated_at types
-        self.assertTrue(type(obj.created_at) is datetime)
-        self.assertTrue(type(obj.updated_at) is datetime)
+    def test_class(self):
+        """test instance class"""
+        instance = models.base_model.BaseModel()
+        self.assertIsInstance(instance, models.base_model.BaseModel)
 
-        # string representation
-        self.assertEqual(str(obj), '[{}] ({}) {}'.format(
-            'BaseModel', obj.id, obj.__dict__))
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.base_model.BaseModel()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
 
-        # time updates
-        old_ctm = obj.created_at
-        old_utm = obj.updated_at
-        sleep(0.01)
-        obj.save()
-        self.assertEqual(old_ctm, obj.created_at)
-        self.assertNotEqual(old_utm, obj.updated_at)
+    def test_init(self):
+        """test type of instance atributes"""
+        instance = models.base_model.BaseModel()
+        instance.name = "Pichu"
+        instance.number = 98
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.name, str)
+        self.assertIsInstance(instance.number, int)
 
-        old_ctm = obj.created_at
-        old_utm = obj.updated_at
-        sleep(0.01)
-        obj.save()
-        self.assertEqual(old_ctm, obj.created_at)
-        self.assertNotEqual(old_utm, obj.updated_at)
+    def test_str(self):
+        """test __str__ method"""
+        instance = models.base_model.BaseModel()
+        string = "[BaseModel] ({}) {}".format(instance.id, instance.__dict__)
+        self.assertEqual(string, str(instance))
 
-        self.assertEqual(obj.to_dict(),
-                         {'__class__': 'BaseModel', 'id': obj.id,
-                          'created_at': obj.created_at.isoformat(),
-                          'updated_at': obj.updated_at.isoformat()})
+    def test_save(self):
+        """test save method"""
+        instance = models.base_model.BaseModel()
+        date = instance.updated_at
+        instance.save()
+        self.assertLess(date, instance.updated_at)
 
-    def test_4(self):
-        ''' task 4 tests '''
-        # args ignorance
-        obj = BaseModel(1, 2, 3, 'kk')
-        self.assertTrue(type(getattr(obj, 'id', None) is str) and
-                        UUID(obj.id))
+    def test_to_dict(self):
+        """test to_dict method"""
+        instance = models.base_model.BaseModel()
+        dictionary  = instance.to_dict()
+        self.assertIsInstance(dictionary, dict)
+        self.assertEqual(instance.__class__.__name__, dictionary["__class__"])
+        self.assertEqual(instance.id, dictionary["id"])
 
-        now = datetime.utcnow()
-        obj_dict = {'id': str(uuid4()), 'created_at': now.isoformat(),
-                    'updated_at': now.isoformat(), '__class__': 'BaseModel'}
-        # kwargs parsing
-        obj = BaseModel(**obj_dict)
-        self.assertEqual(obj.id, obj_dict['id'])
-        # datetime parsing
-        self.assertEqual(obj.created_at, now)
-        self.assertEqual(obj.updated_at, now)
-        # __class__ should not be added as an attribute
-        self.assertFalse('__class__' in obj.__dict__)
 
-        # same objects creation
-        self.assertEqual(obj.to_dict(), BaseModel(**obj_dict).to_dict())
-        self.assertEqual(str(obj), str(BaseModel(**obj_dict)))
-
-        # no __class__ dependency
-        del obj_dict['__class__']
-        BaseModel(**obj_dict)  # no execption raised
-
-        ##
-        ##
-        ##
-        # normal creation in kwargs absence
-        obj = BaseModel()
-        self.assertTrue(type(getattr(obj, 'id', None) is str) and
-                        UUID(obj.id))
-        self.assertNotEqual(BaseModel().id, obj.id)
-        self.assertNotEqual(BaseModel().id, BaseModel().id)
-        self.assertNotEqual(BaseModel().id, BaseModel().id)
-
-        # time updates
-        old_ctm = obj.created_at
-        old_utm = obj.updated_at
-        sleep(0.01)
-        obj.save()
-        self.assertEqual(old_ctm, obj.created_at)
-        self.assertNotEqual(old_utm, obj.updated_at)
-
-        old_ctm = obj.created_at
-        old_utm = obj.updated_at
-        sleep(0.01)
-        obj.save()
-        self.assertEqual(old_ctm, obj.created_at)
-        self.assertNotEqual(old_utm, obj.updated_at)
-<<<<<<< HEAD
-=======
-        
->>>>>>> 3bfd6872242ceade76d13dcaea96e1bc03b825cf
+if __name__ == "__main__":
+    unittest.main()
