@@ -1,19 +1,32 @@
 #!/usr/bin/python3
-''' module for state tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
+"""test module for class State"""
 
-from models.base_model import BaseModel
-from models.state import State
+import models
+import datetime
+import unittest
 
 
-class TestState(TestCase):
-    ''' tests State class '''
-    def test_9(self):
-        ''' task 9 tests '''
-        self.assertTrue(issubclass(State, BaseModel))
-        self.assertEqual(State.name, '')
+class StateTest(unittest.TestCase):
+    """tests the class State"""
+
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.state.__doc__)
+        self.assertIsNotNone(models.state.State.__doc__)
+
+    def test_class(self):
+        """test instance class"""
+        instance = models.state.State()
+        self.assertIsInstance(instance, models.state.State)
+
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.state.State()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.name, str)
+
+
+if __name__ == "__main__":
+    unittest.main()
