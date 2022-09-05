@@ -1,20 +1,33 @@
 #!/usr/bin/python3
-''' module for city tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
+"""test module for class City"""
 
-from models.base_model import BaseModel
-from models.city import City
+import models
+import datetime
+import unittest
 
 
-class TestCity(TestCase):
-    ''' tests City class '''
-    def test_9(self):
-        ''' task 9 tests '''
-        self.assertTrue(issubclass(City, BaseModel))
-        self.assertEqual(City.state_id, '')
-        self.assertEqual(City.name, '')
+class CityTest(unittest.TestCase):
+    """tests the class City"""
+
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.city.__doc__)
+        self.assertIsNotNone(models.city.City.__doc__)
+
+    def test_class(self):
+        """test instance class"""
+        instance = models.city.City()
+        self.assertIsInstance(instance, models.city.City)
+
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.city.City()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.state_id, str)
+        self.assertIsInstance(instance.name, str)
+
+
+if __name__ == "__main__":
+    unittest.main()
