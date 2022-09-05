@@ -1,19 +1,32 @@
 #!/usr/bin/python3
-''' module for amenity tests '''
-from unittest import TestCase
-import json
-import re
-from uuid import UUID, uuid4
-from datetime import datetime
-from time import sleep
+"""test module for class Amenity"""
 
-from models.base_model import BaseModel
-from models.amenity import Amenity
+import models
+import datetime
+import unittest
 
 
-class TestAmenity(TestCase):
-    ''' tests Amenity class '''
-    def test_9(self):
-        ''' task 9 tests '''
-        self.assertTrue(issubclass(Amenity, BaseModel))
-        self.assertEqual(Amenity.name, '')
+class AmenityTest(unittest.TestCase):
+    """tests the class Amenity"""
+
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.amenity.__doc__)
+        self.assertIsNotNone(models.amenity.Amenity.__doc__)
+
+    def test_class(self):
+        """test instance class"""
+        instance = models.amenity.Amenity()
+        self.assertIsInstance(instance, models.amenity.Amenity)
+
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.amenity.Amenity()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.name, str)
+
+
+if __name__ == "__main__":
+    unittest.main()
