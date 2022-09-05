@@ -1,45 +1,47 @@
 #!/usr/bin/python3
-''' module for BaseModel class '''
+"""module of 'BaseModel' class"""
 
-import uuid
-import datetime
-import engine.file_storage as storage
+from uuid import uuid4
+from datetime import datetime
+import models
 
 
 class BaseModel:
-    ''' class of the base model of higher-level data models '''
-    def __init__(self, *arg, **kwargs):
-        ''' BaseModel constructor '''
-        if kwargs:
-            for k in kwargs:
-                if k in ['created_at', 'updated_at']:
-                    setattr(self, k, datetime.fromisoformat(kwargs[k]))
-                elif k != '__class__':
-                    setattr(self, k, kwargs[k])
+    """Representation of a BaseModel"""
+
+    def __init__(self, *args, **kwargs):
+        """class constructor"""
+        if len(kwargs) > 0:
+            for key, value in kwargs.items():
+                if key in ["created_at", "updated_at"]:
+                    setattr(self, key,
+                            datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                elif key != "__class__":
+                    setattr(self, key, value)
+
         else:
             self.id = str(uuid4())
-            self.created_at = datetime.today()
-            self.updated_at = self.created_at.replace()
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
+            models.storage.save()
+
+    def __str__(self):
+        """custom __str__ method for BaseModel"""
+        return ("[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id, self.__dict__))
 
     def save(self):
-        ''' saves a model '''
-        self.updated_at = datetime.today()
+        """updates updated_at with the current datetime"""
+        self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        ''' returns a dictionary representation of the model '''
-        dct = self.__dict__.copy()
-        dct['__class__'] = self.__class__.__name__
-        dct['created_at'] = self.created_at.isoformat()
-        dct['updated_at'] = self.updated_at.isoformat()
-        return dct
+        """returns a dictionary containing all keys/values
+           of __dict__ of the instance"""
 
-    def __str__(self):
-        ''' returns a string representation of the model '''
-        return '[{}] ({}) {}'.format(
-            self.__class__.__name__, self.id, self.__dict__)
-<<<<<<< HEAD
-=======
-            
->>>>>>> 3bfd6872242ceade76d13dcaea96e1bc03b825cf
+        dict_ = dict(self.__dict__)
+        dict_.update({"__class__": self.__class__.__name__,
+                      "created_at": str(((self.created_at).isoformat())),
+                      "updated_at": str(((self.updated_at).isoformat()))})
+        return dict_
