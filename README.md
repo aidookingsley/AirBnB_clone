@@ -1,7 +1,7 @@
-AirBnB clone - The console
+#AirBnB clone - The console
 The console is the first part of the AirBnB clone project which aims to deploy a simple copy of the AirBnB website to cover all fundamental concepts of the ALX School higher level programming track.
 
-Overview
+##Overview
 This first part of the project focuses on creating a command interpreter that allows to:
 
 create the data model.
@@ -48,7 +48,7 @@ console.py the console contains the entry point of the command interpreter.
         |── test_user.py
         └── test_engine/
             └── test_file_storage.py
-Environment and Execution
+##Environment and Execution
 This project was interpreted/compiled and tested on Ubuntu 20.04 LTS using python3 (version 3.8.5).
 
 To use the console you must have python3 installed and the repository cloned
