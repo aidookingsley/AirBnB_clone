@@ -52,7 +52,7 @@ Environment and Execution
 This project was interpreted/compiled and tested on Ubuntu 20.04 LTS using python3 (version 3.8.5).
 
 To use the console you must have python3 installed and the repository cloned
-(git clone https://github.com/Blessingdev233/AirBnB_clone.git).
+(git clone https://github.com/aidookingsley/AirBnB_clone.git).
 
 To start the console you only need to run ./console in the root of the repository.
 
