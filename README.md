@@ -1,49 +1,93 @@
-# AirBnB Clone
-So this project is the first step towards building a first full web application (which is an AirBnB clone). This first step consists of a custom command-line interface for data management, and the base classes for the storage of this data.
+AirBnB clone - The console
+The console is the first part of the AirBnB clone project which aims to deploy a simple copy of the AirBnB website to cover all fundamental concepts of the ALX School higher level programming track.
 
-## Step 1: Write a command interpreter (Console)
+Overview
+This first part of the project focuses on creating a command interpreter that allows to:
 
+create the data model.
+manage (create, update and destroy) objects via a console.
+store and persist objects to a file (JSON file).
+Files and Directories
+/models directory constains all classes used for the project.
+basemodel.py file contains the base class (BaseModel) of all models in the project:
 
-## Models
+user.py - file contains the User class.
+state.py - file contains the State class.
+city.py - file contains the Cityclass.
+amenity.py - file contains the Amenity class.
+place.py - file contains the Place class.
+review.py - file contains the Review class.
+/models/engine directory contains the class that handles JSON serialization and deserialization.
+file_storage.py - file contains FileStorage class.
 
-The folder [models](./models/) contains all the classes used in this project.
+/tests directory contains all unit test cases for this project.
 
-- a unique id generated using ```uuid``` package
-- the attribute ```created_at```, a ```datetime``` object, indicating when the object is created
-- the attribute ```updated_at```, a ```datetime``` object, indicating when the object is last updated
-- the attribute ```__class__```, a ```str``` object, indicating what is the object's type (model)
-
-File | Description | Attributes
----- | ----------- | ----------
-[base_model.py](./models/base_model.py) | BaseModel class for all the other classes | id, created_at, updated_at
-[user.py](./models/user.py) | User class for future user information | email, password, first_name, last_name
-[amenity.py](./models/amenity.py) | Amenity class for future amenity information | name
-[city.py](./models/city.py) | City class for future location information | state_id, name
-[state.py](./models/state.py) | State class for future location information | name
-[place.py](./models/place.py) | Place class for future accomodation information | city_id, user_id, name, description, number_rooms, number_bathrooms, max_guest, price_by_night, latitude, longitude, amenity_ids
-[review.py](./models/review.py) | Review class for future user/host review information | place_id, user_id, text
-
-## File storage
-
-The folder [engine](./models/engine/) manages the serialization and deserialization of all the data, following a JSON format.
-
-A FileStorage class is defined in [file_storage.py](./models/engine/file_storage.py) with methods to follow this flow:
-```<object> -> to_dict() -> <dictionary> -> JSON dump -> <json string> -> FILE -> <json string> -> JSON load -> <dictionary> -> <object>```
-
-The [__init__.py](./models/__init__.py) file contains the instantiation of the FileStorage class called **storage**, followed by a call to the method reload() on that instance.
-This allows the storage to be reloaded automatically at initialization, which recovers the serialized data.
+console.py the console contains the entry point of the command interpreter.
 
 
+|── console.py
+├── models/
+│   ├── amenity.py
+│   ├── base_model.py
+│   ├── city.py
+│   ├── place.py
+│   ├── review.py
+│   ├── state.py
+│   |── user.py
+│   └── engine/
+│       └── file_storage.py
+└── tests/
+    |── test_console.py
+    └── test_models/
+        ├── test_amenity.py
+        ├── test_base_model.py
+        ├── test_city.py
+        ├── test_place.py
+        ├── test_review.py
+        ├── test_state.py
+        |── test_user.py
+        └── test_engine/
+            └── test_file_storage.py
+Environment and Execution
+This project was interpreted/compiled and tested on Ubuntu 20.04 LTS using python3 (version 3.8.5).
 
+To use the console you must have python3 installed and the repository cloned
+(git clone https://github.com/Blessingdev233/AirBnB_clone.git).
 
-## Resources
-- [cmd module](https://docs.python.org/3.8/library/cmd.html)
-- [packages concept page](https://alx-intranet.hbtn.io/concepts/74)
-- [uuid module](https://docs.python.org/3.8/library/uuid.html)
-- [datetime](https://docs.python.org/3.8/library/datetime.html)
-- [unittest module](https://docs.python.org/3.8/library/unittest.html#module-unittest)
-- [args/kwargs](https://yasoob.me/2013/08/04/args-and-kwargs-in-python-explained/)
-- [Python test cheatsheet](https://www.pythonsheets.com/notes/python-tests.html)
+To start the console you only need to run ./console in the root of the repository.
 
-# AUTHOR
-- Kingsley Mensah Aidoo |[Email] (kingsleymensahaidoo@gmail.com) |[GitHub](https://github.com/aidookingsley)
+The console works like this in interactive mode:
+
+$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit
+$
+
+But also in non-interactive mode: (like the Shell project in C)
+
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
